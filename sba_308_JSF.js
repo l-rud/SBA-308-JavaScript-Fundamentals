@@ -77,7 +77,26 @@ const CourseInfo = {
   ];
   
   function getLearnerData(course, ag, submissions) {
-    // here, we would process this data to achieve the desired result.
+    const result = [];
+  
+    // filter LearnerSubmissions to keep submissions with unique learner_id
+    // https://stackoverflow.com/questions/15125920/how-to-get-distinct-values-from-an-array-of-objects-in-javascript
+    const submissionsUniqueLearner = submissions.filter(
+        (a, i) => submissions.findIndex((s) => a.learner_id === s.learner_id) === i
+    );
+
+    // loop though submissions with unique learner_id
+    for (let i = 0; i < submissionsUniqueLearner.length; i++) {
+        const learnerId = submissionsUniqueLearner[i].learner_id; 
+        // create an object
+        const learner = {};
+        
+        // set id to learnerId
+        learner['id'] = learnerId;
+
+        // push the object to result array
+        result.push(learner);
+    }
 
     return result;
   }
@@ -85,4 +104,3 @@ const CourseInfo = {
   const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
   
   console.log(result);
-  
