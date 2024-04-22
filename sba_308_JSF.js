@@ -119,6 +119,27 @@ const CourseInfo = {
         // set id to learnerId
         learner['id'] = learnerId;
 
+        const learnerSubmissions = submissions.filter(
+          (a, i) => a.learner_id === learnerId
+        );
+
+        let learnerScore = 0;
+        let totalPointsPossible = 0;
+        for (const assignmentDue of agDue) {
+          let scoreForAssignment = 0;
+          for (const learnerSubmission of learnerSubmissions) {
+            if (learnerSubmission.assignment_id === assignmentDue.id) {
+              scoreForAssignment = learnerSubmission.submission.score;
+              learnerScore += learnerSubmission.submission.score;
+            }
+          }
+
+          learner[assignmentDue.id] = scoreForAssignment / assignmentDue.points_possible;
+          totalPointsPossible += assignmentDue.points_possible;
+        }
+
+        learner.avg = learnerScore / totalPointsPossible;
+
         // push the object to result array
         result.push(learner);
     }
