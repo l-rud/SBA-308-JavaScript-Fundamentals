@@ -130,7 +130,17 @@ const CourseInfo = {
           for (const learnerSubmission of learnerSubmissions) {
             if (learnerSubmission.assignment_id === assignmentDue.id) {
               scoreForAssignment = learnerSubmission.submission.score;
-              learnerScore += learnerSubmission.submission.score;
+
+              let percentToSustract = 0;
+              if (learnerSubmission.submission.submitted_at.localeCompare(assignmentDue.due_at) > 0) {
+                percentToSustract = 0.1;
+              } else {
+                percentToSustract = 0;
+              }
+
+              scoreForAssignment -= percentToSustract * assignmentDue.points_possible;
+
+              learnerScore += scoreForAssignment;
             }
           }
 
