@@ -95,6 +95,13 @@ const CourseInfo = {
   }
 
   function getLearnerData(course, ag, submissions) {
+    const currentDate = getCurrentDate();
+
+    // filtering assignments due (i.e. assignments with due_at field less or equal than currentDate)
+    const agDue = ag.assignments.filter(
+        (a) => a.due_at.localeCompare(currentDate) <= 0 
+    );
+
     const result = [];
   
     // filter LearnerSubmissions to keep submissions with unique learner_id
@@ -115,8 +122,6 @@ const CourseInfo = {
         // push the object to result array
         result.push(learner);
     }
-
-    const currentDate = getCurrentDate();
 
     return result;
   }
