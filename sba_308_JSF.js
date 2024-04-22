@@ -76,6 +76,24 @@ const CourseInfo = {
     }
   ];
   
+  // https://stackoverflow.com/questions/23593052/format-javascript-date-as-yyyy-mm-dd
+  function getCurrentDate() {
+    const d = new Date();
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    let year = d.getFullYear();
+
+    if (month.length < 2) { 
+        month = '0' + month;
+    }
+
+    if (day.length < 2) { 
+        day = '0' + day;
+    }
+
+    return [year, month, day].join('-');
+  }
+
   function getLearnerData(course, ag, submissions) {
     const result = [];
   
@@ -97,6 +115,8 @@ const CourseInfo = {
         // push the object to result array
         result.push(learner);
     }
+
+    const currentDate = getCurrentDate();
 
     return result;
   }
